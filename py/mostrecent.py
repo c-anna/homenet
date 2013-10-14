@@ -39,13 +39,12 @@ while not bills:
 	yr -= 1
 		
 
-if bills:
-	bills[:] = [item.split('.')[0] for item in bills]
-	bills.sort(key = lambda val: SORT_ORDER[val], reverse=True)
+bills[:] = [item.split('.')[0] for item in bills]
+bills.sort(key = lambda val: SORT_ORDER[val], reverse=True)
 
-	location = (os.sep).join([str(d.year), bills[0]])
+location = (os.sep).join([str(d.year), bills[0]])
 
-	print("Status: 200")
-	print("Content-Type: application/pdf")
-	print("Location: "+location+".pdf")
-	print()
+print("Status: 200")
+print("Content-Type: application/pdf")
+print("Location: "+location+".pdf")
+print()
