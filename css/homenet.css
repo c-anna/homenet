@@ -1,3 +1,12 @@
+html {
+	color: white;
+	font-family: Arial;
+}
+
+body {
+	background-image:url('../../img/homenet/green_bubbles.jpg');
+}
+
 .address_header {
 	text-align: center;
 }
