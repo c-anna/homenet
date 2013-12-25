@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+
+<style>
+.player {
+    background-color: cyan;
+    width:350px;
+    text-align:center;
+    padding:5px;
+    border-style:solid;
+    border-color:black;
+}
+
+p {
+    font-size:180%;
+}
+
+input {
+    font-size:180%;
+    text-align:center;
+}
+</style>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+<script>
+function newPlayer(player) {
+    var n = player.clone(true);
+
+    n.find('.lifeCounter').text("20");
+	n.find('.playerName').val("");
+    n.css('display', 'none');
+    n.appendTo('#players').show(350);
+}
+
+$(function () {
+    $("button").button()
+});
+
+$(function () {
+    $('.removePlayer').click(function () {
+        playerElement = $(this).parent();
+        playerElement.hide(350);
+		playerElement.remove();
+    })
+});
+
+$(function () {
+    $(".up").click(function () {
+        counterObj = $(this).siblings(".lifeCounter");
+        oldVal = parseInt(counterObj.text());
+
+        if ($(this).hasClass("lifeUp1")) {
+            incrementer = 1;
+        } else if ($(this).hasClass("lifeUp5")) {
+            incrementer = 5;
+        } else if ($(this).hasClass("lifeUp10")) {
+            incrementer = 10;
+        }
+
+        counterObj.text(oldVal + incrementer);
+    })
+});
+
+$(function () {
+    $(".down").click(function () {
+        counterObj = $(this).siblings(".lifeCounter");
+        oldVal = parseInt(counterObj.text());
+
+        if ($(this).hasClass("lifeDown1")) {
+            decrementer = 1;
+        } else if ($(this).hasClass("lifeDown5")) {
+            decrementer = 5;
+        } else if ($(this).hasClass("lifeDown10")) {
+            decrementer = 10;
+        }
+
+        counterObj.text(oldVal - decrementer);
+
+    })
+});
+</script>
+</head>
+
+<body>
+<div id=players>
+	<div class=player>
+		<input class=playerName placeholder="Player name"></input><br />
+		
+		<button class='lifeUp1 up'>+1</button>
+		<button class='lifeUp5 up'>+5</button>
+		<button class='lifeUp10 up'>+10</button>
+
+		<p class=lifeCounter>20</p>
+
+		<button class='lifeDown1 down'>-1</button>
+		<button class='lifeDown5 down'>-5</button>
+		<button class='lifeDown10 down'>-10</button>
+		<br /><br />
+		<button class=removePlayer>Remove this player</button>
+	</div>
+</div>
+
+<button onClick="newPlayer($('.player:first'))">Add a new player</button>
+
+</body>
+</html>
