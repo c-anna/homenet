@@ -1,0 +1,103 @@
+<DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Bill Informer</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://silviomoreto.github.io/bootstrap-select/javascripts/bootstrap-select.js"></script>
+	
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css">
+	
+	<style>
+		fieldset {
+			padding: 20px;
+		}
+		
+		textarea {
+			border: solid 1px #5bc0de;
+		}
+		
+		.input-file {
+			border: solid 1px #5bc0de;
+		}
+	</style>
+	
+	<script>
+		$(document).ready(function(e) {
+			$('.selectpicker').selectpicker();
+		});
+	</script>
+</head>
+
+<body>
+<form class="form-horizontal" id=billForm method=post enctype="multipart/form-data" action="./py/billInformer.py">
+	<fieldset>
+		<legend>Inform payers of a new bill</legend>
+		<div class="control-group">
+			<label class="control-label" for="billTypes">Bill Type</label><br />
+			<div class="radio">
+				<input name="billType" type="radio" value="gas">Gas</button>
+			</div>
+			<div class="radio">
+				<input name="billType" type="radio" value="electric">Electric</button>
+			</div>
+			<div class="radio">
+				<input name="billType" type="radio" value="cable">Cable</button>
+			</div>
+		</div>
+		<br />
+		
+		<div class="control-group">
+			<label class="control-label" for="month">Month</label>
+			<div class="control">
+				<select class="selectpicker" data-style="btn-info" name=month id=month>
+					<option value="January">January</option>
+					<option value="February">February</option>
+					<option value="March">March</option>
+					<option value="April">April</option>
+					<option value="May">May</option>
+					<option value="June">June</option>
+					<option value="July">July</option>
+					<option value="August">August</option>
+					<option value="September">September</option>
+					<option value="October">October</option>
+					<option value="November">November</option>
+					<option value="December">December</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="dollarAmount">Dollar amount of bill</label>
+			<div class="controls">
+				$<input name=dollarAmount type="text" class="input-xlarge" id=dollarAmount></input>
+				<p class="help-block">This amount will be divided by the number of payers before being emailed</p>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="message">Optional message to add to the email</label>
+			<div class="controls">
+				<textarea name=msg class="input-xlarge" id=message rows=8 cols=40></textarea>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="fileInput">File upload</label>
+			<div class="controls">
+				<input name=fileInput  class="input-file" id=fileInput type="file">
+			</div>
+		</div>
+		
+		<br /><br />		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-danger">Process bill</button>
+		</div>
+	</fieldset>
+</form>
+</body>
+
+</html>

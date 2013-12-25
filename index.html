@@ -2,12 +2,23 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
 	<title>Apt 347's Homenet</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="http://bootswatch.com/cerulean/bootstrap.min.css">
-	<!--- <link rel="stylesheet" type="text/css" href="../css/homenet/homenet.css"> --->
-	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+	<!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="//bootswatch.com/cerulean/bootstrap.min.css">
+	
+	<style>
+		.address_header {
+			text-align: center;
+		}
+		
+		body {
+			padding: 25px;
+		}
+	</style>
+
 </head>
 
 
@@ -15,11 +26,54 @@
 <body>
 <h1 class="address_header">3022 Regent's Tower Street<br />Apt. 347<br />Fairfax, VA 22031</h1>
 
-<div id="menu">
-<a href="./bills/gas/">View Gas Bills</a> <a class=most_recent href="./bills/gas/mostrecent.py"> (most recent)</a><br />
-<a href="./bills/electric/">View Electric Bills</a> <a class=most_recent href="./bills/electric/mostrecent.py"> (most recent)</a><br />
-<a href="./bills/cable/">View Cable Bills</a> <a class=most_recent href="./bills/cable/mostrecent.py"> (most recent)</a><br />
+<div class="navbar navbar-default">
+        <div class="container">
+		    <div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+            <a class="navbar-brand" href="#">Homenet</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+			  
+              <li class="dropdown">
+                <a href="./bills/gas" class="dropdown-toggle" data-toggle="dropdown">Gas <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="./bills/gas/">All Bills</a></li>
+                    <li><a href="./bills/gas/mostrecent.py">Most Recent</a></li>
+                </ul>
+              </li>
+              
+              <li class="dropdown">
+                <a href="./bills/electric" class="dropdown-toggle" data-toggle="dropdown">Electric <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="./bills/electric/">All Bills</a></li>
+                    <li><a href="./bills/electric/mostrecent.py">Most Recent</a></li>
+                </ul>
+              </li>
+              
+              <li class="dropdown">
+                <a href="./bills/cable" class="dropdown-toggle" data-toggle="dropdown">Cable <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="./bills/cable/">All Bills</a></li>
+                    <li><a href="./bills/cable/mostrecent.py">Most Recent</a></li>
+                </ul>
+              </li>
+			  
+			  <li>
+				<a href="billInformer.html">New Bill</a>
+			  </li>
+            
+			</ul>
+          </div>
+		  
+		  
+        </div>
 </div>
+
 
 <div id="content">Welcome to Homenet! This page is your source for utility bills and more.</div>
 

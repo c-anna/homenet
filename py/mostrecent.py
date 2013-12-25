@@ -34,6 +34,7 @@ while not bills:
 		print("Status: 301")
 		print("Location: ../../bad_date.html")
 		print()
+		#print("Today = ", d)
 		sys.exit()
 		
 	yr -= 1
@@ -48,3 +49,5 @@ print("Status: 200")
 print("Content-Type: application/pdf")
 print("Location: "+location+".pdf")
 print()
+#print("Today = ", d)
+
