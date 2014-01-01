@@ -27,7 +27,9 @@ input {
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
 
+
 <script>
+//Define a new player
 function newPlayer(player) {
     var n = player.clone(true);
 
@@ -37,10 +39,13 @@ function newPlayer(player) {
     n.appendTo('#players').show(350);
 }
 
+//Bind all buttons to the jQuery UI button styling etc.
 $(function () {
     $("button").button()
 });
 
+
+//Bind a click event to the "remove player" button
 $(function () {
     $('.removePlayer').click(function () {
         playerElement = $(this).parent();
@@ -49,41 +54,60 @@ $(function () {
     })
 });
 
-$(function () {
-    $(".up").click(function () {
-        counterObj = $(this).siblings(".lifeCounter");
-        oldVal = parseInt(counterObj.text());
+function lifeChange(element) {
+	console.log(element);
+	counterObj = element.siblings(".lifeCounter");
+	console.log("counterObj is: " + counterObj);
+	oldVal = parseInt(counterObj.text());
+	incrementer = 0;
+	
+	console.log("These are the classes of the element: " + element[0].classList);
+	
+	if (element.hasClass("lifeUp1")) {
+		incrementer = 1;
+	} else if (element.hasClass("lifeUp5")) {
+		incrementer = 5;
+	} else if (element.hasClass("lifeUp10")) {
+		incrementer = 10;
+	} else if (element.hasClass("lifeDown1")) {
+		incrementer = -1;
+	} else if (element.hasClass("lifeDown5")) {
+		incrementer = -5;
+	} else if (element.hasClass("lifeDown10")) {
+		incrementer = -10;
+	}
+	
+	newVal = oldVal + incrementer;
+    counterObj.text(newVal);
+	
+	if (newVal <= 0) {
+		$('#sad_trombone').trigger('play');
+	}
+	
+	return (oldVal + incrementer);
+}
 
-        if ($(this).hasClass("lifeUp1")) {
-            incrementer = 1;
-        } else if ($(this).hasClass("lifeUp5")) {
-            incrementer = 5;
-        } else if ($(this).hasClass("lifeUp10")) {
-            incrementer = 10;
-        }
-
-        counterObj.text(oldVal + incrementer);
-    })
+$(document).ready(function() {
+	//Bind event handlers to the life change buttons
+		//If the user is on a mobile device, we'll use the 'touchstart'
+		//event to trigger the life gain or loss. If not, the standard
+		//'click' event will do
+	if ((/iPhone|iPod|iPad|Android/).test(navigator.userAgent)) {
+		//alert("using a touch-enabled agent");
+		$(".up, .down").on('touchstart', function( event ) {
+			lifeChange($(event.target).closest("button"));
+		});
+		
+	} else {
+		console.log("Using a non-touch-enabled agent");
+		$(".up, .down").click(function( event ) { 
+			lifeChange($(event.target).closest("button")); 
+		});
+	}
 });
 
-$(function () {
-    $(".down").click(function () {
-        counterObj = $(this).siblings(".lifeCounter");
-        oldVal = parseInt(counterObj.text());
-
-        if ($(this).hasClass("lifeDown1")) {
-            decrementer = 1;
-        } else if ($(this).hasClass("lifeDown5")) {
-            decrementer = 5;
-        } else if ($(this).hasClass("lifeDown10")) {
-            decrementer = 10;
-        }
-
-        counterObj.text(oldVal - decrementer);
-
-    })
-});
 </script>
+
 </head>
 
 <body>
@@ -104,6 +128,8 @@ $(function () {
 		<button class=removePlayer>Remove this player</button>
 	</div>
 </div>
+
+<audio id=sad_trombone type="audio/mpeg" src="sad_trombone.mp3" preload="auto"></audio>
 
 <button onClick="newPlayer($('.player:first'))">Add a new player</button>
 
