@@ -3,14 +3,20 @@
 <html>
 <head>
 
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
 <style>
 .player {
     background-color: cyan;
-    width:350px;
+    width:600px;
+	height:300px;
     text-align:center;
     padding:5px;
     border-style:solid;
     border-color:black;
+}
+
+.remove_player {
+	float:right;
 }
 
 p {
@@ -21,11 +27,17 @@ input {
     font-size:180%;
     text-align:center;
 }
+
+button {	
+	-webkit-tap-highlight-color: rgba(0,0,0, 0.0);
+	outline: none;
+}
+
 </style>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
+
 
 
 <script>
@@ -49,8 +61,14 @@ $(function () {
 $(function () {
     $('.removePlayer').click(function () {
         playerElement = $(this).parent();
-        playerElement.hide(350);
-		playerElement.remove();
+        
+		var r = confirm("Are you sure you want to remove this player?");
+		if (r == true) {
+			playerElement.hide(350);
+			playerElement.remove();
+		} else {
+			return;
+		}
     })
 });
 
@@ -93,11 +111,35 @@ $(document).ready(function() {
 		//event to trigger the life gain or loss. If not, the standard
 		//'click' event will do
 	if ((/iPhone|iPod|iPad|Android/).test(navigator.userAgent)) {
-		//alert("using a touch-enabled agent");
+		//These two commands make a button stop responding to click events,
+		//but retain the look of an enabled button. When using a touch-enabled
+		//device, the user is disoriented by the 'click' actions of highlighting
+		//and showing the button has been clicked because these actions occur
+		//roughly 300ms after they have touched the button. In the Life Counter,
+		//the user will probably be clicking any of these buttons rapidly (if they
+		//want to add or subtract 3 or 4 life, for example), and it is confusing
+		//if the click events lag behind the taps. So here we are. A good improvement
+		//would be to change the style at 'touchstart' instead of 'click'.
+		$(".up, .down").button("disable");
+		$(".up, .down").css("opacity", "1.0");
+		
+		//Call the lifeChange() function on 'touchstart' instead of 'click'
 		$(".up, .down").on('touchstart', function( event ) {
 			lifeChange($(event.target).closest("button"));
 		});
 		
+		//This block prevents a user's double-tap from zooming in on the document
+		//A user may reasonably want to tap the same button quickly to, e.g., lose
+		//two life. Having the browser zoom in or out is very disorienting in these
+		//situations.
+		var doubleTouchStartTimeStamp = 0;
+		$(document).bind("touchstart", function (event) {
+			var now = +(new Date());
+			if (doubleTouchStartTimeStamp + 500 > now) {
+				event.preventDefault();
+			}
+			doubleTouchStartTimeStamp = now;
+		});	
 	} else {
 		console.log("Using a non-touch-enabled agent");
 		$(".up, .down").click(function( event ) { 
@@ -105,7 +147,6 @@ $(document).ready(function() {
 		});
 	}
 });
-
 </script>
 
 </head>
