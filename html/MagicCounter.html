@@ -73,13 +73,9 @@ $(function () {
 });
 
 function lifeChange(element) {
-	console.log(element);
 	counterObj = element.siblings(".lifeCounter");
-	console.log("counterObj is: " + counterObj);
 	oldVal = parseInt(counterObj.text());
 	incrementer = 0;
-	
-	console.log("These are the classes of the element: " + element[0].classList);
 	
 	if (element.hasClass("lifeUp1")) {
 		incrementer = 1;
