@@ -24,9 +24,11 @@ yr = d.year
 billpayers = grp.getgrnam('billpayers')[3]
 n_billpayers = len(billpayers)
 
-emails = {"chris":"canna12@gmail.com"}#,
-		#"heather":"xxxx",
-		#"logan":"xxxx"}
+#emails = {"chris":"canna12@gmail.com",
+#		"heather":"heatherehorton@gmail.com",
+#		"logan":"logan1@vt.edu"}
+
+emails = {"heather":"hhorton@fool.com", "logan":"logan1@vt.edu", "chris":"canna12@gmail.com"}
 		
 #The next several lines retrieve the simple text/numeric/button input
 #from the Bill Informer form.
@@ -77,13 +79,13 @@ emailMsg['Subject'] = "New {} bill on homenet".format(billType)
 
 #Begin the process of emailing notifications to each billpayer
 relay = smtplib.SMTP_SSL('smtp.gmail.com')
-relay.login('canna12','xxxx')	
+relay.login('canna12','chrisanna')	
 	
 #Because the email will be routed through my personal Gmail account,
 #the fromaddr here will be clobbered. If I ever get my own domain, I'll
 #add a billmaster user for this purpose.
 fromaddr = "billmaster@oberon"
-toaddrs = ""
+toaddrs = []
 
 #Here's that payer/email mismatch I mentioned earlier.
 if len(billpayers) != len(emails):
@@ -93,7 +95,7 @@ if len(billpayers) != len(emails):
 	sys.exit()
 else:	
 	for i in billpayers:
-		toaddrs += emails[i] + ", "
+		toaddrs.append(emails[i])
 
 #This will send all the emails and then close the SMTP relay. In the future,
 #add some error handling here in case sendmail doesn't work.
@@ -108,7 +110,7 @@ print("Refresh: 5; url=/homenet/index.html")
 print()
 print("The following email addresses have been informed of the new bill:")
 print("\n")
-print(toaddrs.replace(", ","\n"))
+print(toaddrs)
 print("Redirecting back to homenet in 5 seconds...")
 
 
