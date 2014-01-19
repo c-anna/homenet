@@ -16,19 +16,15 @@ cgitb.enable()
 d = datetime.date.today()
 yr = d.year
 
-#Get the names of users in the "billpayers" group on the server, and
-#the number of payers. The dictionary 'emails' associates a Linux user
-#name to an email address -- if there is a mismatch between the number
-#of users in the billpayers group and the number of email addresses in
-#this dictionary, we will halt (later).
-billpayers = grp.getgrnam('billpayers')[3]
-n_billpayers = len(billpayers)
+#Open the external file and read the Gmail credentials
+#from it.
+f = open("billPayers.txt")
+creds = (f.readline()).rstrip()
+creds = creds.split(" ")
 
-#emails = {"chris":"canna12@gmail.com",
-#		"heather":"heatherehorton@gmail.com",
-#		"logan":"logan1@vt.edu"}
-
-emails = {"heather":"hhorton@fool.com", "logan":"logan1@vt.edu", "chris":"canna12@gmail.com"}
+#Read the email addresses from the external file also
+text = (f.read()).split("\n")
+emails = list(filter(None, text))
 		
 #The next several lines retrieve the simple text/numeric/button input
 #from the Bill Informer form.
@@ -79,7 +75,7 @@ emailMsg['Subject'] = "New {} bill on homenet".format(billType)
 
 #Begin the process of emailing notifications to each billpayer
 relay = smtplib.SMTP_SSL('smtp.gmail.com')
-relay.login('canna12','chrisanna')	
+relay.login(creds[0],creds[1])	
 	
 #Because the email will be routed through my personal Gmail account,
 #the fromaddr here will be clobbered. If I ever get my own domain, I'll
@@ -88,18 +84,18 @@ fromaddr = "billmaster@oberon"
 toaddrs = []
 
 #Here's that payer/email mismatch I mentioned earlier.
-if len(billpayers) != len(emails):
-	print("Status:404")
-	print("Location: payer_mismatch.html")
-	print()
-	sys.exit()
-else:	
-	for i in billpayers:
-		toaddrs.append(emails[i])
+#if len(billpayers) != len(emails):
+#	print("Status:404")
+#	print("Location: payer_mismatch.html")
+#	print()
+#	sys.exit()
+#else:	
+#for i in emails:
+#	toaddrs.append(i)
 
 #This will send all the emails and then close the SMTP relay. In the future,
 #add some error handling here in case sendmail doesn't work.
-relay.sendmail(fromaddr, toaddrs, emailMsg.as_string())
+relay.sendmail(fromaddr, emails, emailMsg.as_string())
 relay.quit()
 
 #Show the user some confirmation that what they did worked. Then redirect them
